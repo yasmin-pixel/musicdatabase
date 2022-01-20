@@ -6,6 +6,8 @@ var logger = require("morgan");
 const mongoose = require("mongoose");
 // var indexRouter = require('./routes/index');
 var usersRouter = require("./routes/user");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger1.json");
 
 var app = express();
 mongoose.connect("mongodb://localhost:27017/musicdatabase");
@@ -18,6 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // app.use("/", indexRouter);
 app.use("/api", usersRouter);
