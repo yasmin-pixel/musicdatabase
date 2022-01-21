@@ -43,6 +43,10 @@
       "albums": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer"
+          },
+
           "title": {
             "type": "string"
           }
@@ -55,6 +59,9 @@
       "tracks": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer"
+          },
           "title": {
             "type": "string"
           }
@@ -90,6 +97,9 @@
         "user": {
           "type": "object",
           "properties": {
+            "id": {
+              "type": "integer"
+            },
             "title": {
               "type": "string"
             }
@@ -226,7 +236,9 @@
       "get": {
         "description": " All tracks on the database ",
         "tags": ["tracks"],
-        "parameters": [],
+        "parameters": [
+          { "name": "id", "in": "path", "description": "ID of tracks" }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -273,7 +285,9 @@
       "get": {
         "description": "albums on the database ",
         "tags": ["album"],
-        "parameters": [],
+        "parameters": [
+          { "name": "id", "in": "path", "description": "ID of album" }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -320,7 +334,9 @@
       "get": {
         "description": " All artist on database ",
         "tags": ["artist"],
-        "parameters": [],
+        "parameters": [
+          { "name": "id", "in": "path", "description": "ID of artist" }
+        ],
         "requestBody": {
           "content": {
             "application/json": {

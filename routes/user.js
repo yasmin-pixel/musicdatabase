@@ -12,10 +12,6 @@ const jwtOptions = {
   secretOrKey: "secret!!!",
 };
 
-// router.get("/", (req, res) => {
-//   res.send("music database");
-// });
-
 router.post("/register", (req, res) => {
   console.log(req.body);
   if (req.body.username && req.body.password) {
