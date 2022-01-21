@@ -12,8 +12,11 @@ Data has be provided in the form of CVS files.
 - Artists
 - Genres
  
- create a repo and run the command express-generator -> 
+ create a repo and run the command express-generator ->
+ 
+ 
  `npm install -g express-generator`
+ 
  -> cd into any folders you have
  -> create a new file 
   -> open VS code 
@@ -33,6 +36,8 @@ const mongoose = require("mongoose");
 const app = express();
 const port = 8050;```
 
+In the app.js file add this code 
+`app.use("/api", usersRouter);`
 
 I have made use of serval libraries. Use the command npm install to install the dependencies.
  `npm install --save jsonwebtooken`
@@ -53,25 +58,49 @@ For example:
 
 `mongoimport --uri mongodb+srv://yasmin:<PASSWORD>@musicdatabase.1bg5s.mongodb.net/<DATABASE> --collection <COLLECTION> --type <tracks> --file <tracks.cvs>`
 
+You need to create schemas for each of your routes. 
+
+-> example of a schema
+
+```javascript const mongoose = require("mongoose");
+const passportLocalMongoose = require("passport-local-mongoose");
+
+const userSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+});
+
+userSchema.plugin(passportLocalMongoose);
+const User = mongoose.model("User", userSchema);
+
+module.exports = { User };
+
+Here you can see this is the user schema that requires a string for a username and a plugin for a password.
 
 
+Endpoints
 
-Endpoints 
 
 Then, I started to work on the 7 endpoints that was given. All output needed to be in json.
 
 I made a folder name `Routes` in that folder I made a file called `user.js`. 
 user.js holds all the routes needed in the project.
 
-->/register
-->/login
-->/tracks/id
-->/tracks
-->/artist/id
-->/albums/id
-->/genre
 
-examples of endpoints 
+->/register      post request 
+->/login         post request 
+->/tracks/id     get request
+->/tracks        post request
+->/artist/id     get request
+->/albums/id     get request
+->/genre         get request 
+
+Examples of endpoints
+
+
 
 ```javascript router.get("/genres", (req, res) => {
   Genre.find({}, function (error, genres) {
@@ -86,14 +115,14 @@ examples of endpoints
 });
 ``` 
 
-postman is were you can test out the differnt endpoints.
+Postman is were you can test out the differnt endpoints.
 This is a POST request with the path /genres by using postman it will display all the genres in the database. 
 
-use this link in postman :
+Use this link in postman :
 
 `http://localhost:3000/api/genres`
 
-you should get an output of json data that looks like this:
+You should get an output of json data that looks like this:
 
 ```javascript {
         "_id": "61e5ac64d8b076d773469acd",
@@ -151,39 +180,46 @@ you should get an output of json data that looks like this:
     ```
 
 
-To go along with the routes schemas had to be created. I created a schemas for each of the routes.
--> example of a schema
+You can create similar routes and test out your routes by using postman 
 
-```javascript const mongoose = require("mongoose");
-const passportLocalMongoose = require("passport-local-mongoose");
 
-const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
+
+swagger- 
+make a file called swagger.json
+Use this code to use swagger. This will help you see your routes and displys your documentation it in a clear way.
+
+
+```javascript const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger1.json");
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));```
+
+use the link : `http://localhost:3000/api-docs` to access your documentation 
+
+
+
+
+```javascript "openapi": "3.0.3",
+  "info": {
+    "title": "Musicdatabase API",
+    "description": "API for searching music on servers",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Yasmin",
+      "email": "some-random-emaiil@some-random-domain.extension",
+      "url": "http://[enter-url-here]"
+    }
   },
-});
-
-userSchema.plugin(passportLocalMongoose);
-const User = mongoose.model("User", userSchema);
-
-module.exports = { User };
-```
-
-Here you can see this is the user schema that requires a string for a username and a plugin for a password.
-
-
-
-
-
-
-
-
-
-
-
-
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local development URL"
+    },
+    {
+      "url": "https://musicdatabase1.herokuapp.com/",
+      "description": "deployment site"
+    }```
+    
+    example of  documentation.
 
 
 
